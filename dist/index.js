@@ -42558,14 +42558,15 @@ __nccwpck_require__.r(__webpack_exports__);
 
 
 
-// const testrail_url = core.getInput('testrail-url');
-// const TESTRAIL_TOKEN = core.getInput('TESTRAIL_TOKEN');
-// const test_directory = core.getInput('test-directory');
+const testrail_url = _actions_core__WEBPACK_IMPORTED_MODULE_0___default().getInput('testrail-url');
+const TESTRAIL_API_KEY = _actions_core__WEBPACK_IMPORTED_MODULE_0___default().getInput('TESTRAIL_API_KEY');
+const TESTRAIL_USER = _actions_core__WEBPACK_IMPORTED_MODULE_0___default().getInput('TESTRAIL_USER')
+const test_directory = _actions_core__WEBPACK_IMPORTED_MODULE_0___default().getInput('test-directory');
 
 const testrail = new (testrail_api__WEBPACK_IMPORTED_MODULE_3___default())({
-    host: 'host',
-    user: 'user_email',
-    password: 'password'
+    host: testrail_url,
+    user: TESTRAIL_USER,
+    password: TESTRAIL_API_KEY
 });
 
 async function run() {
@@ -42575,7 +42576,7 @@ async function run() {
 
     //get test `@CXXXXX` test ids 
     const regex = /[\@C][0-9]+/g
-    const featureFiles = await recursive_readdir__WEBPACK_IMPORTED_MODULE_1___default()('src', ['!*.feature'])
+    const featureFiles = await recursive_readdir__WEBPACK_IMPORTED_MODULE_1___default()(test_directory, ['!*.feature'])
     
     for (const file of featureFiles) {
         const constents = await readFile(file);
@@ -42599,7 +42600,7 @@ run();
 
 async function readFile(path) {
     return new Promise((resolve, reject) => {
-      fs__WEBPACK_IMPORTED_MODULE_2___default().readFile(path, 'utf8', function (err, data) {
+      (0,fs__WEBPACK_IMPORTED_MODULE_2__.readFile)(path, 'utf8', function (err, data) {
         if (err) {
           reject(err);
         }

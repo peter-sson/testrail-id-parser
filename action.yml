@@ -1,8 +1,8 @@
 name: "Test Rail Parser"
 description: "Parsing test rail template test ids and comparing with cucumber tags"
 inputs:
-  TESTRAIL_TOKEN:
-    description: "TestRail token"
+  TESTRAIL_API_KEY:
+    description: "TestRail API key"
     required: true
   testrail-url:
     description: "Url to template id"
