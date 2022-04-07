@@ -1,0 +1,25 @@
+{
+  "name": "testrail-id-parser",
+  "version": "1.0.0",
+  "description": "Parsing test rail template test ids and comparing with cucumber tags",
+  "main": "index.js",
+  "scripts": {
+    "build": "ncc build src/index.js -o dist",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": "git+https://github.com/pson-skillz/testrail-id-parser.git",
+  "keywords": [],
+  "author": "Peter Son <pson@skillz.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pson-skillz/testrail-id-parser/issues"
+  },
+  "homepage": "https://github.com/pson-skillz/testrail-id-parser#readme",
+  "dependencies": {
+    "@actions/core": "^1.6.0",
+    "@actions/github": "^5.0.1",
+    "@vercel/ncc": "^0.33.3",
+    "recursive-readdir": "^2.2.2",
+    "testrail-api": "^1.3.6"
+  }
+}
