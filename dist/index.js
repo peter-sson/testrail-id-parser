@@ -42559,22 +42559,24 @@ __nccwpck_require__.r(__webpack_exports__);
 
 
 const testrail_url = _actions_core__WEBPACK_IMPORTED_MODULE_0___default().getInput('testrail-url');
+const testrailPlanId = _actions_core__WEBPACK_IMPORTED_MODULE_0___default().getInput('testrail-plan-id')
 const TESTRAIL_API_KEY = _actions_core__WEBPACK_IMPORTED_MODULE_0___default().getInput('TESTRAIL_API_KEY');
 const TESTRAIL_USER = _actions_core__WEBPACK_IMPORTED_MODULE_0___default().getInput('TESTRAIL_USER')
 const test_directory = _actions_core__WEBPACK_IMPORTED_MODULE_0___default().getInput('test-directory');
 
+
 const testrail = new (testrail_api__WEBPACK_IMPORTED_MODULE_3___default())({
     host: testrail_url,
     user: TESTRAIL_USER,
-    password: TESTRAIL_API_KEY
+    password: TESTRAIL_API_KEY 
 });
 
 async function run() {
-    const repoTestIds = []
-    const testRailIds = []
-    const missingIds = []
+    const repoTestIds = [] // Collection of target repo's test ids from cucumber tag.
+    let testrailIds = [] // Collection of targe testrail plan's test ids.
+    const missingIds = [] // Collection of repo's test ids not included in testrail plan.
 
-    //get test `@CXXXXX` test ids 
+    // Get test `@CXXXXX` test ids 
     const regex = /[\@C][0-9]+/g
     const featureFiles = await recursive_readdir__WEBPACK_IMPORTED_MODULE_1___default()(test_directory, ['!*.feature'])
     
@@ -42583,17 +42585,30 @@ async function run() {
         const newData = constents.replace(/\n/g, " ");
         repoTestIds.push(...newData.match(regex))
     }
+
+    // Get testrail template test ids
+    console.log(`Getting testrail test ids from plan id: ${testrailPlanId}...`)
+    const testrailPlan = await testrail.getPlan(/*RUN_ID=*/testrailPlanId);
+
+    const testrailRunIds = []
+    for (const entry of testrailPlan.body.entries) {
+        testrailRunIds.push(...entry.runs.map(x => x.id))
+    }
+
+    for (const run of testrailRunIds) {
+        const test = await testrail.getTests(run)
+        testrailIds.push(...test.body.tests.map(x => x.case_id))
+    }
+
+    // Find test ids not included in testrail template
+    for (const id of repoTestIds) {
+        const idInt = parseInt(id.substring(1))
+        if (!testrailIds.includes(idInt)) {
+            missingIds.push(id);
+        }
+    }
     
-    console.log(repoTestIds)
-
-    //get testrail template test ids
-    testrail.getPlan(/*RUN_ID=*/39654, function (err, response, cases) {
-
-        console.log(cases.entries[0].runs);
-      });
-    
-
-    //core.setOutput('missing-ids', missingIds)
+    _actions_core__WEBPACK_IMPORTED_MODULE_0___default().setOutput('missing-ids', missingIds)
 }
 
 run();

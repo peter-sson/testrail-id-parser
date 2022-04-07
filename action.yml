@@ -1,20 +1,25 @@
 name: "Test Rail Parser"
 description: "Parsing test rail template test ids and comparing with cucumber tags"
 inputs:
+  TESTRAIL_USER:
+    description: "user email for testrail auth"
+    required: true
   TESTRAIL_API_KEY:
     description: "TestRail API key"
     required: true
   testrail-url:
-    description: "Url to template id"
+    description: "testrail host url"
     required: true
-    default: "<url>"
+  testrail-plan-id:
+    description: "testrail target plan id"
+    required: true
   test-directory:
     description: "directory to search for .feature files"
-    required: false
+    required: true
     default: "./tests/features"
 outputs:
   missing-ids:
     description: "Test Ids missing from testrail template"
 runs:
   using: "node14"
-  main: "dis/index.js"
+  main: "dist/index.js"
