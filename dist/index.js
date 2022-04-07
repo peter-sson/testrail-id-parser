@@ -42563,9 +42563,9 @@ __nccwpck_require__.r(__webpack_exports__);
 // const test_directory = core.getInput('test-directory');
 
 const testrail = new (testrail_api__WEBPACK_IMPORTED_MODULE_3___default())({
-    host: 'https://skillzqa.testrail.net',
-    user: 'pson@skillz.com',
-    password: 'MWXKT2RMrwFIrWjEBxc.-W3n/E3ZPJJbdLga2YHMU'
+    host: 'host',
+    user: 'user_email',
+    password: 'password'
 });
 
 async function run() {

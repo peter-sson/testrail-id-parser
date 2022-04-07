@@ -8,9 +8,9 @@ import Testrail from "testrail-api"
 // const test_directory = core.getInput('test-directory');
 
 const testrail = new Testrail({
-    host: 'https://skillzqa.testrail.net',
-    user: 'pson@skillz.com',
-    password: 'MWXKT2RMrwFIrWjEBxc.-W3n/E3ZPJJbdLga2YHMU'
+    host: 'host',
+    user: 'user_email',
+    password: 'password'
 });
 
 async function run() {
