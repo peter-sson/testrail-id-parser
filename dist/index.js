@@ -42495,77 +42495,27 @@ module.exports = JSON.parse('["ac","com.ac","edu.ac","gov.ac","net.ac","mil.ac",
 /******/ 	}
 /******/ 	
 /************************************************************************/
-/******/ 	/* webpack/runtime/compat get default export */
-/******/ 	(() => {
-/******/ 		// getDefaultExport function for compatibility with non-harmony modules
-/******/ 		__nccwpck_require__.n = (module) => {
-/******/ 			var getter = module && module.__esModule ?
-/******/ 				() => (module['default']) :
-/******/ 				() => (module);
-/******/ 			__nccwpck_require__.d(getter, { a: getter });
-/******/ 			return getter;
-/******/ 		};
-/******/ 	})();
-/******/ 	
-/******/ 	/* webpack/runtime/define property getters */
-/******/ 	(() => {
-/******/ 		// define getter functions for harmony exports
-/******/ 		__nccwpck_require__.d = (exports, definition) => {
-/******/ 			for(var key in definition) {
-/******/ 				if(__nccwpck_require__.o(definition, key) && !__nccwpck_require__.o(exports, key)) {
-/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
-/******/ 				}
-/******/ 			}
-/******/ 		};
-/******/ 	})();
-/******/ 	
-/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
-/******/ 	(() => {
-/******/ 		__nccwpck_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
-/******/ 	})();
-/******/ 	
-/******/ 	/* webpack/runtime/make namespace object */
-/******/ 	(() => {
-/******/ 		// define __esModule on exports
-/******/ 		__nccwpck_require__.r = (exports) => {
-/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
-/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
-/******/ 			}
-/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
-/******/ 		};
-/******/ 	})();
-/******/ 	
 /******/ 	/* webpack/runtime/compat */
 /******/ 	
 /******/ 	if (typeof __nccwpck_require__ !== 'undefined') __nccwpck_require__.ab = __dirname + "/";
 /******/ 	
 /************************************************************************/
 var __webpack_exports__ = {};
-// This entry need to be wrapped in an IIFE because it need to be in strict mode.
+// This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
 (() => {
-"use strict";
-__nccwpck_require__.r(__webpack_exports__);
-/* harmony import */ var _actions_core__WEBPACK_IMPORTED_MODULE_0__ = __nccwpck_require__(2186);
-/* harmony import */ var _actions_core__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__nccwpck_require__.n(_actions_core__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var recursive_readdir__WEBPACK_IMPORTED_MODULE_1__ = __nccwpck_require__(6715);
-/* harmony import */ var recursive_readdir__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__nccwpck_require__.n(recursive_readdir__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var fs__WEBPACK_IMPORTED_MODULE_2__ = __nccwpck_require__(7147);
-/* harmony import */ var fs__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__nccwpck_require__.n(fs__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var testrail_api__WEBPACK_IMPORTED_MODULE_3__ = __nccwpck_require__(5381);
-/* harmony import */ var testrail_api__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__nccwpck_require__.n(testrail_api__WEBPACK_IMPORTED_MODULE_3__);
+const core = __nccwpck_require__(2186)
+const recursiveReadDir = __nccwpck_require__(6715);
+const fs = __nccwpck_require__(7147);
+const Testrail = __nccwpck_require__(5381);
+
+const testrail_url = core.getInput('testrail-url');
+const testrailPlanId = parseInt(core.getInput('testrail-plan-id'));
+const TESTRAIL_API_KEY = core.getInput('TESTRAIL_API_KEY');
+const TESTRAIL_USER = core.getInput('TESTRAIL_USER');
+const test_directory = core.getInput('test-directory');
 
 
-
-
-
-const testrail_url = _actions_core__WEBPACK_IMPORTED_MODULE_0__.core.getInput('testrail-url');
-const testrailPlanId = parseInt(_actions_core__WEBPACK_IMPORTED_MODULE_0__.core.getInput('testrail-plan-id'));
-const TESTRAIL_API_KEY = _actions_core__WEBPACK_IMPORTED_MODULE_0__.core.getInput('TESTRAIL_API_KEY');
-const TESTRAIL_USER = _actions_core__WEBPACK_IMPORTED_MODULE_0__.core.getInput('TESTRAIL_USER');
-const test_directory = _actions_core__WEBPACK_IMPORTED_MODULE_0__.core.getInput('test-directory');
-
-
-const testrail = new (testrail_api__WEBPACK_IMPORTED_MODULE_3___default())({
+const testrail = new Testrail({
     host: testrail_url,
     user: TESTRAIL_USER,
     password: TESTRAIL_API_KEY 
@@ -42578,7 +42528,7 @@ async function run() {
 
     // Get test `@CXXXXX` test ids 
     const regex = /[\@C][0-9]+/g
-    const featureFiles = await recursive_readdir__WEBPACK_IMPORTED_MODULE_1___default()(test_directory, ['!*.feature']);
+    const featureFiles = await recursiveReadDir(test_directory, ['!*.feature']);
     
     for (const file of featureFiles) {
         const constents = await readFile(file);
@@ -42608,14 +42558,14 @@ async function run() {
         }
     }
     
-    _actions_core__WEBPACK_IMPORTED_MODULE_0__.core.setOutput('missing-ids', missingIds);
+    core.setOutput('missing-ids', missingIds);
 }
 
 run();
 
 async function readFile(path) {
     return new Promise((resolve, reject) => {
-      (0,fs__WEBPACK_IMPORTED_MODULE_2__.readFile)(path, 'utf8', function (err, data) {
+      fs.readFile(path, 'utf8', function (err, data) {
         if (err) {
           reject(err);
         }

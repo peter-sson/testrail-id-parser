@@ -1,7 +1,7 @@
-import { core } from "@actions/core";
-import recursiveReadDir from 'recursive-readdir';
-import { readFile as _readFile } from 'fs';
-import Testrail from 'testrail-api';
+const core = require('@actions/core')
+const recursiveReadDir = require('recursive-readdir');
+const fs = require('fs');
+const Testrail = require('testrail-api');
 
 const testrail_url = core.getInput('testrail-url');
 const testrailPlanId = parseInt(core.getInput('testrail-plan-id'));
@@ -60,7 +60,7 @@ run();
 
 async function readFile(path) {
     return new Promise((resolve, reject) => {
-      _readFile(path, 'utf8', function (err, data) {
+      fs.readFile(path, 'utf8', function (err, data) {
         if (err) {
           reject(err);
         }
