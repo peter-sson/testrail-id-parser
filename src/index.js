@@ -18,8 +18,7 @@ const testrail = new Testrail({
 
 async function run() {
     const repoTestIds = [] // Collection of target repo's test ids from cucumber tag.
-    let testrailIds = [] // Collection of targe testrail plan's test ids.
-    const missingIds = [] // Collection of repo's test ids not included in testrail plan.
+    const testrailTests = [] // Collection of test objects from testrail.
 
     // Get test `@CXXXXX` test ids 
     const regex = /(@C)[0-9]+/g;
@@ -35,8 +34,8 @@ async function run() {
     }
 
     // Get testrail template test ids
-    console.log(`Getting testrail test ids from plan id: ${testrailPlanId}...`);
-    const testrailPlan = await testrail.getPlan(/*PLAN_ID=*/testrailPlanId);
+    console.log(`Getting testrail test ids from plan id: ...`);
+    const testrailPlan = await testrail.getPlan(/*PLAN_ID=*/39654);
 
     const testrailRunIds = []
     for (const entry of testrailPlan.body.entries) {
@@ -45,20 +44,42 @@ async function run() {
 
     for (const run of testrailRunIds) {
         const test = await testrail.getTests(run);
-        testrailIds.push(...test.body.tests.map(x => x.case_id));
+        testrailTests.push(...test.body.tests);
     }
 
+    const testrailIds = testrailTests.map(x => x.case_id)
+    
     // Find test ids not included in testrail template
+    const missingIds = [] // Collection of repo's test ids not included in testrail plan.
+    const includedIds = []
     for (const id of repoTestIds) {
         const idInt = parseInt(id.substring(2));
         if (!testrailIds.includes(idInt)) {
             missingIds.push(id.substring(1));
+        } else {
+            includedIds.push(idInt)
         }
     }
-    
-    core.setOutput('missing-ids', missingIds);
 
     console.log(`Following test ids not included in TestRail Plan ${testrailPlanId}: ` + missingIds)
+
+    // Find test ids marked not automated but included in the framework.
+    console.log('Getting test execution value ...')
+
+    let falseExecutionIds = []
+    for (const test of testrailTests) {
+        if (includedIds.includes(test.case_id) && test.custom_automation_type != 1){
+            falseExecutionIds.push("C" + test.case_id.toString())
+        }
+    }
+
+    falseExecutionIds = [...new Set(falseExecutionIds)]
+
+    console.log(`Following test ids included in the framework but marked as not automated in TestRail : ` + falseExecutionIds);
+
+    
+    core.setOutput('missing-ids', missingIds);
+    core.setOutput('false-execution-ids', falseExecutionIds);
  }
 
 run();

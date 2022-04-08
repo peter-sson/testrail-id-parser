@@ -20,6 +20,8 @@ inputs:
 outputs:
   missing-ids:
     description: "Test Ids missing from testrail template"
+  false-execution-ids:
+    description: "Automated Test Ids with false execution values"
 runs:
   using: "node16"
   main: "dist/index.js"
