@@ -17,6 +17,8 @@ const testrail = new Testrail({
 });
 
 async function run() {
+    const test = ["A", "B"]
+    console.log(test)
     const repoTestIds = [] // Collection of target repo's test ids from cucumber tag.
     let testrailIds = [] // Collection of targe testrail plan's test ids.
     const missingIds = [] // Collection of repo's test ids not included in testrail plan.
@@ -57,6 +59,8 @@ async function run() {
     }
     
     core.setOutput('missing-ids', missingIds);
+
+    console.log(`Following test ids not included in TestRail Plan ${testrailPlanId}: ` + missingIds)
  }
 
 run();
