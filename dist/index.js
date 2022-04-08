@@ -42555,7 +42555,7 @@ async function run() {
 
     // Find test ids not included in testrail template
     for (const id of repoTestIds) {
-        const idInt = parseInt(id.substring(1));
+        const idInt = parseInt(id.substring(2));
         if (!testrailIds.includes(idInt)) {
             missingIds.push(id);
         }
