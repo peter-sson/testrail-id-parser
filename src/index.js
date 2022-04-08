@@ -1,4 +1,4 @@
-import core from "@actions/core";
+import { core } from "@actions/core";
 import recursiveReadDir from 'recursive-readdir';
 import { readFile as _readFile } from 'fs';
 import Testrail from 'testrail-api';

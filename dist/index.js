@@ -42558,11 +42558,11 @@ __nccwpck_require__.r(__webpack_exports__);
 
 
 
-const testrail_url = _actions_core__WEBPACK_IMPORTED_MODULE_0___default().getInput('testrail-url');
-const testrailPlanId = parseInt(_actions_core__WEBPACK_IMPORTED_MODULE_0___default().getInput('testrail-plan-id'));
-const TESTRAIL_API_KEY = _actions_core__WEBPACK_IMPORTED_MODULE_0___default().getInput('TESTRAIL_API_KEY');
-const TESTRAIL_USER = _actions_core__WEBPACK_IMPORTED_MODULE_0___default().getInput('TESTRAIL_USER');
-const test_directory = _actions_core__WEBPACK_IMPORTED_MODULE_0___default().getInput('test-directory');
+const testrail_url = _actions_core__WEBPACK_IMPORTED_MODULE_0__.core.getInput('testrail-url');
+const testrailPlanId = parseInt(_actions_core__WEBPACK_IMPORTED_MODULE_0__.core.getInput('testrail-plan-id'));
+const TESTRAIL_API_KEY = _actions_core__WEBPACK_IMPORTED_MODULE_0__.core.getInput('TESTRAIL_API_KEY');
+const TESTRAIL_USER = _actions_core__WEBPACK_IMPORTED_MODULE_0__.core.getInput('TESTRAIL_USER');
+const test_directory = _actions_core__WEBPACK_IMPORTED_MODULE_0__.core.getInput('test-directory');
 
 
 const testrail = new (testrail_api__WEBPACK_IMPORTED_MODULE_3___default())({
@@ -42608,7 +42608,7 @@ async function run() {
         }
     }
     
-    _actions_core__WEBPACK_IMPORTED_MODULE_0___default().setOutput('missing-ids', missingIds);
+    _actions_core__WEBPACK_IMPORTED_MODULE_0__.core.setOutput('missing-ids', missingIds);
 }
 
 run();
