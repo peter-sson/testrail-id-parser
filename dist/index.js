@@ -42527,14 +42527,15 @@ async function run() {
     const missingIds = [] // Collection of repo's test ids not included in testrail plan.
 
     // Get test `@CXXXXX` test ids 
-    const regex = /[\@C][0-9]+/g
+    const regex = /[\@C][0-9]+/g;
     const featureFiles = await recursiveReadDir(test_directory, ['!*.feature']);
     
     for (const file of featureFiles) {
-        const constents = await readFile(file);
-        const newData = constents.replace(/\n/g, " ");
-        if (newData != null) {
-            repoTestIds.push(...newData.match(regex));
+        const contents = await readFile(file);
+        const oneLineData = contents.replace(/\n/g, " ");
+        const matchTestId = oneLineData.match(regex);
+        if (matchTestId != null) {
+            repoTestIds.push(...matchTestId);
         }
     }
 
