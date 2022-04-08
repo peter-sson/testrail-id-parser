@@ -42533,12 +42533,14 @@ async function run() {
     for (const file of featureFiles) {
         const constents = await readFile(file);
         const newData = constents.replace(/\n/g, " ");
-        repoTestIds.push(...newData.match(regex));
+        if (newData != null) {
+            repoTestIds.push(...newData.match(regex));
+        }
     }
 
     // Get testrail template test ids
     console.log(`Getting testrail test ids from plan id: ${testrailPlanId}...`);
-    const testrailPlan = await testrail.getPlan(/*RUN_ID=*/testrailPlanId);
+    const testrailPlan = await testrail.getPlan(/*PLAN_ID=*/testrailPlanId);
 
     const testrailRunIds = []
     for (const entry of testrailPlan.body.entries) {
@@ -42559,7 +42561,7 @@ async function run() {
     }
     
     core.setOutput('missing-ids', missingIds);
-}
+ }
 
 run();
 
