@@ -42527,7 +42527,7 @@ async function run() {
     const missingIds = [] // Collection of repo's test ids not included in testrail plan.
 
     // Get test `@CXXXXX` test ids 
-    const regex = /[\@C][0-9]+/g;
+    const regex = /(@C)[0-9]+/g;
     const featureFiles = await recursiveReadDir(test_directory, ['!*.feature']);
     
     for (const file of featureFiles) {
