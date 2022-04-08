@@ -52,7 +52,7 @@ async function run() {
     for (const id of repoTestIds) {
         const idInt = parseInt(id.substring(2));
         if (!testrailIds.includes(idInt)) {
-            missingIds.push(id);
+            missingIds.push(id.substring(1));
         }
     }
     
