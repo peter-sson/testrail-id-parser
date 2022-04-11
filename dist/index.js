@@ -42565,8 +42565,11 @@ async function run() {
             includedIds.push(idInt)
         }
     }
-
-    console.log(`Following test ids not included in TestRail Plan ${testrailPlanId}: ` + missingIds)
+    if (missingIds.length > 0) {
+        console.log(`Following test ids not included in TestRail Plan ${testrailPlanId}: ` + missingIds)
+    } else {
+        console.log('There are no tests excluded from TestRail plan.')
+    }
 
     // Find test ids marked not automated but included in the framework.
     console.log('Getting test execution value ...')
@@ -42580,8 +42583,12 @@ async function run() {
 
     falseExecutionIds = [...new Set(falseExecutionIds)]
 
-    console.log(`Following test ids included in the framework but marked as not automated in TestRail : ` + falseExecutionIds);
-
+    if (falseExecutionIds.length > 0){
+        console.log(`Following test ids included in the framework but marked as not automated in TestRail : ` + falseExecutionIds);
+    } else {
+        console.log('All tests are correctly marked automated in TestRail.')
+    }
+    
     
     core.setOutput('missing-ids', missingIds);
     core.setOutput('false-execution-ids', falseExecutionIds);
