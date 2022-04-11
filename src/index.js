@@ -76,12 +76,12 @@ async function run() {
         }
     }
 
-    falseExecutionIds = [...new Set(falseExecutionIds)]
+    falseExecutionIds = [...new Set(falseExecutionIds)];
 
     if (falseExecutionIds.length > 0){
-        console.log(`Following test ids included in the framework but marked as not automated in TestRail : ` + falseExecutionIds);
+        core.setFailed(`Following test ids included in the framework but marked as not automated in TestRail : ` + falseExecutionIds);        
     } else {
-        console.log('All tests are correctly marked automated in TestRail.')
+        console.log('All tests are correctly marked automated in TestRail.');
     }
     
     
