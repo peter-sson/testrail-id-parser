@@ -1,10 +1,6 @@
 name: Matrix test
 
 on:
-  schedule:
-    # Weekly Sunday at Midnight
-    - cron: "0 0 * * 0"
-
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
