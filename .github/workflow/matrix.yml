@@ -5,8 +5,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  weekly-test:
-    name: Testing matrix
+  matrix-test:
     runs-on: ubuntu-latest
     strategy:
       matrix:
